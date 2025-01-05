@@ -1,3 +1,8 @@
+## Installation
+```
+cargo add dowhile_rs
+```
+
 ## Example usage
 ```rust
 let mut x = 6;
