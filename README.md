@@ -20,7 +20,7 @@ dowhile!({
 ```
   
 ```rust
-let mut x = 0;
+let mut x = 10;
 dowhile!(x < 6, 'main_loop: {
     let mut y = x;
     println!("x = {x}");
@@ -36,7 +36,7 @@ dowhile!(x < 6, 'main_loop: {
     x += 1;
 });
 
-// x = 0
+// x = 10
 // y = 0
 // y = 1
 // y = 2
