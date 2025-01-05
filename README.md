@@ -5,6 +5,8 @@ dowhile!(x < 3, {
    println!("x = {x}");
    x += 1;
 });
+
+// x = 6
 ```
 
 ```rust
@@ -13,6 +15,8 @@ dowhile!({
     println!("x = {x}");
     x += 1;
 } x < 3);
+
+// x = 6
 ```
   
 ```rust
@@ -27,8 +31,14 @@ dowhile!(x < 6, 'main_loop: {
         }
         println!("y = {y}");
         y += 1;
-    } y < 6);
+    } y < x);
     
     x += 1;
 });
+
+// x = 0
+// y = 0
+// y = 1
+// y = 2
+// y = 3
 ```
