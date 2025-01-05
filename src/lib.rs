@@ -61,4 +61,25 @@ mod tests {
             ('y', 2), ('x', 3), ('y', 3), ('x', 4), ('y', 4)
         ]);
     }
+
+    #[test]
+    fn while_true() {
+        let mut x = 0;
+        dowhile!(true, {
+            if x > 3 {
+                break;
+            }
+            x += 1;
+        });
+        assert_eq!(x, 4);
+    }
+
+    #[test]
+    fn implicit_not() {
+        let mut x = 0;
+        dowhile!(true == false, {
+           x += 1; 
+        });
+        assert_eq!(x, 1);
+    }
 }
