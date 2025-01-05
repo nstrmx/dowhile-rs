@@ -22,9 +22,9 @@ dowhile!({
 ```rust
 let mut x = 10;
 dowhile!(x < 6, 'first_loop: {
-    let mut y = x;
     println!("x = {x}");
-    
+
+    let mut y = 0;
     dowhile!('second_loop: {
         if y == 4 {
             break 'first_loop;
