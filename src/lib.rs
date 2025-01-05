@@ -1,33 +1,41 @@
 #[macro_export]
 macro_rules! dowhile {
-    ($body:block $cond:expr) => ({
-        loop {
+    ($($label:lifetime: )?$body:block $cond:expr) => ({
+        $($label: )?loop {
             $body
             if !$cond {
                 break;
             }
         }
     });
-    ($label:lifetime: $body:block $cond:expr) => ({
-        $label: loop {
+    ($cond:expr, $($label:lifetime: )?$body:block) => ({
+        $($label: )?loop {
             $body
             if !$cond {
                 break;
             }
         }
     });
-    ($cond:expr, $body:block) => ({
-        loop {
+    (let $pattern:pat = $value:expr$(=> $cond:expr)?, $($label:lifetime: )?$body:block) => ({
+        $($label: )?loop {
             $body
-            if !$cond {
+            if let $pattern = $value {
+                $(if !$cond {
+                    break;
+                })?   
+            } else {
                 break;
             }
         }
     });
-    ($cond:expr, $label:lifetime: $body:block) => ({
-        $label: loop {
+    ($($label:lifetime: )?$body:block let $pattern:pat = $value:expr$(=> $cond:expr)?) => ({
+        $($label: )?loop {
             $body
-            if !$cond {
+            if let $pattern = $value {
+                $(if !$cond {
+                    break;
+                })?   
+            } else {
                 break;
             }
         }
