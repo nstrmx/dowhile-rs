@@ -21,13 +21,13 @@ dowhile!({
   
 ```rust
 let mut x = 10;
-dowhile!(x < 6, 'main_loop: {
+dowhile!(x < 6, 'first_loop: {
     let mut y = x;
     println!("x = {x}");
     
-    dowhile!({
+    dowhile!('second_loop: {
         if y == 4 {
-            break 'main_loop;
+            break 'first_loop;
         }
         println!("y = {y}");
         y += 1;
