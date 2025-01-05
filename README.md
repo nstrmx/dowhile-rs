@@ -1,13 +1,13 @@
 ## Example usage
-````
+```
 let mut x = 6;
 dowhile!(x < 3, {
    println!("x = {x}");
    x += 1;
 });
-````
+```
 
-````
+```
 let mut x = 6;
 dowhile!({
     println!("x = {x}");
