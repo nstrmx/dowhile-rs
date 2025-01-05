@@ -2,5 +2,13 @@
 name = "dowhile_rs"
 version = "0.1.0"
 edition = "2021"
+description = "Do while macro for rust with labels and nesting support"
+author = "Gladunov Denis<gladunov.denis@gmail.com>"
+readme = "README.md"
+homepage = "https://github.com/nstrmx/dowhile-rs"
+repository = "https://github.com/nstrmx/dowhile-rs"
+license = "MIT"
+keywords = ["dowhile", "do while", "do-while", "do", "while"]
+categories = ["rust-patterns"]
 
 [dependencies]
