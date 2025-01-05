@@ -1,6 +1,6 @@
 [package]
 name = "dowhile_rs"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Do while macro for rust with labels and nesting support"
 author = "Gladunov Denis<gladunov.denis@gmail.com>"
