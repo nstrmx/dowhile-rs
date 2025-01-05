@@ -1,5 +1,5 @@
 ## Example usage
-```
+```rust
 let mut x = 6;
 dowhile!(x < 3, {
    println!("x = {x}");
@@ -7,7 +7,7 @@ dowhile!(x < 3, {
 });
 ```
 
-```
+```rust
 let mut x = 6;
 dowhile!({
     println!("x = {x}");
@@ -15,7 +15,7 @@ dowhile!({
 } x < 3);
 ```
   
-```
+```rust
 let mut x = 0;
 dowhile!(x < 6, 'main_loop: {
     let mut y = x;
