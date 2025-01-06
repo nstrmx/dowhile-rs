@@ -1,42 +1,55 @@
 #[macro_export]
 macro_rules! dowhile {
-    ($($label:lifetime: )?$body:block $cond:expr) => ({
-        $($label: )?loop {
+    ($($label:lifetime:)? $body:block $(,)? $cond:expr) => ({
+        $($label:)? loop {
             $body
             if !$cond {
-                break;
+                break $($label)?;
             }
         }
     });
-    ($cond:expr, $($label:lifetime: )?$body:block) => ({
-        $($label: )?loop {
+    ($($label:lifetime:)? $body:block let $pattern:pat = $value:expr $(=> $cond:expr)?) => ({
+        $($label:)? loop {
             $body
-            if !$cond {
-                break;
+            if let $pattern = $value {
+                $(if !$cond { 
+                    break; 
+                })?   
+            } else {
+                break $($label)?;
             }
         }
     });
-    (let $pattern:pat = $value:expr$(=> $cond:expr)?, $($label:lifetime: )?$body:block) => ({
-        $($label: )?loop {
+    ($($label:lifetime:)? $body:block let $pattern:pat = $value:expr $(=> $cond:expr)?) => ({
+        $($label:)? loop {
+            $body
+            if let $pattern = $value {
+                $(if !$cond { 
+                    break; 
+                })?   
+            } else {
+                break $($label)?;
+            }
+        }
+    });
+    // Alternative syntax
+    ($cond:expr, $($label:lifetime:)? $body:block) => ({
+        $($label:)? loop {
+            $body
+            if !$cond {
+                break $($label)?;
+            }
+        }
+    });
+    (let $pattern:pat = $value:expr$ (=> $cond:expr)?, $($label:lifetime:)? $body:block) => ({
+        $($label:)? loop {
             $body
             if let $pattern = $value {
                 $(if !$cond {
                     break;
                 })?   
             } else {
-                break;
-            }
-        }
-    });
-    ($($label:lifetime: )?$body:block let $pattern:pat = $value:expr$(=> $cond:expr)?) => ({
-        $($label: )?loop {
-            $body
-            if let $pattern = $value {
-                $(if !$cond {
-                    break;
-                })?   
-            } else {
-                break;
+                break $($label)?;
             }
         }
     });
@@ -73,21 +86,48 @@ mod tests {
     #[test]
     fn while_true() {
         let mut x = 0;
-        dowhile!(true, {
+        dowhile!({
             if x > 3 {
                 break;
             }
             x += 1;
-        });
+        }, true);
         assert_eq!(x, 4);
     }
 
     #[test]
-    fn implicit_not() {
-        let mut x = 0;
-        dowhile!(true == false, {
-           x += 1; 
+    fn while_let() {
+        let mut x = Some(10);
+        let mut v = vec![];
+        dowhile!({
+            v.push(x);
+            x = Some(x.unwrap_or(0) - 1);
+        } let Some(8..) = x);
+        let vv = vec![Some(10), Some(9), Some(8)];
+        assert_eq!(v, vv);
+    }
+    
+    #[test]
+    fn while_let_val() {
+        let mut x = Some(10);
+        let mut v = vec![];
+        dowhile!({
+            v.push(x);
+            x = Some(x.unwrap_or(0) - 1);
+        } let Some(val) = x => val > 8);
+        let vv = vec![Some(10), Some(9)];
+        assert_eq!(v, vv);
+    }
+    
+    #[test]
+    fn while_let_alter() {
+        let mut x = Some(10);
+        let mut v = vec![];
+        dowhile!(let Some(val) = x => val > 8, {
+            v.push(x);
+            x = Some(x.unwrap_or(0) - 1);
         });
-        assert_eq!(x, 1);
+        let vv = vec![Some(10), Some(9)];
+        assert_eq!(v, vv);
     }
 }
