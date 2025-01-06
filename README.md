@@ -36,6 +36,23 @@ dowhile!({
 // x = Some(6)
 ```
 
+```rust
+let mut x = Ok(6);
+dowhile!({
+    println!("x = {x:?}");
+    x = Err("error");
+} match x {
+    Ok(val) => true,
+    Err(err) => {
+        println!("err = {err}");
+        false
+    }
+});
+
+// x = Ok(6)
+// err = error
+```
+
 #### Nested  
 ```rust
 let mut x = 4;
